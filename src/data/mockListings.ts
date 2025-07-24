@@ -1,5 +1,5 @@
 // src/data/mockListings.ts
-export interface Property {
+export type Property = {
   id: string;
   title: string;
   price: number;

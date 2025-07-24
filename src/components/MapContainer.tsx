@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { mockListings } from "../data/mockListings";
+import type { Property } from "../data/mockListings";
 
 // Declare google as a global variable
 declare global {
@@ -9,7 +9,12 @@ declare global {
   var google: any;
 }
 
-const MapContainer = () => {
+interface MapContainerProps {
+  properties: Property[];
+}
+
+const MapContainer: React.FC<MapContainerProps> = ({ properties }) => {
+  console.log(properties)
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [showProperties, setShowProperties] = useState(false);
@@ -22,8 +27,8 @@ const MapContainer = () => {
       });
       setMap(mapInstance);
 
-      if (mockListings.length > 0) {
-        mockListings.forEach((listing) => {
+      if (properties.length > 0) {
+        properties.forEach((listing) => {
           new google.maps.Marker({
             position: { lat: listing.lat, lng: listing.lng },
             map: mapInstance,
@@ -36,8 +41,8 @@ const MapContainer = () => {
 
     const loadMap = () => {
       // Prefer center from mock listing
-      if (mockListings.length > 0) {
-        const first = mockListings[0];
+      if (properties.length > 0) {
+        const first = properties[0];
         initMap({ lat: first.lat, lng: first.lng });
       } else {
         // Fallback: get user's location
@@ -73,7 +78,7 @@ const MapContainer = () => {
         <div className="absolute top-0 right-0 w-80 h-full bg-white border-l border-gray-300 overflow-y-auto shadow-lg z-10">
           <div className="p-4 border-b font-semibold text-lg">Property Results</div>
           <div className="space-y-4 p-4">
-            {mockListings.map((property) => (
+            {properties.map((property) => (
               <div key={property.id} className="border rounded shadow-sm p-2">
                 <img src={property.image} alt="property" className="w-full h-32 object-cover rounded" />
                 <div className="font-bold text-sm mt-2">{property.title}</div>
