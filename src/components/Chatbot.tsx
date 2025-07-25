@@ -45,7 +45,7 @@ const Chatbot = ({ onResults, isSignedIn }: ChatbotProps) => {
         }
 
         User request: "${input}"
-        Only respond with a list of valid JSON objects.
+        Only respond with a valid JSON object.
       `;
 
       const response: string = await window.puter.ai.chat(prompt, {
